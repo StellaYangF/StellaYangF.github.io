@@ -1,13 +1,21 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  lang: "en-US",
   title: "Stella Blog",
+  outDir: "../stella",
+  base: "/stella/",
   description: "Frontend technology learning notes.",
   themeConfig: {
     nav: [
-      { text: 'Home', link: '/' },
-      { text: 'Examples', link: '/markdown-examples' }
+      { text: '概览', link: '/guideline' },
+      {
+        text: '前端', items: [
+          { text: 'Vue', link: '/frontend/vue/index' }
+        ]
+      },
+      { text: '后端', link: '/markdown-examples' },
+      { text: '数据结构与算法', link: '/markdown-examples' },
+      { text: '生活', link: '/markdown-examples' }
     ],
 
     sidebar: [
@@ -20,18 +28,7 @@ export default defineConfig({
       }
     ],
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/vuejs/vitepress' }
+      { icon: 'github', link: 'https://github.com/StellaYangF/stella.github.io' }
     ]
-  },
-  locales: {
-    root: {
-      label: 'Chinese',
-      lang: 'ch'
-    },
-    en: {
-      label: 'English',
-      lang: 'en',
-      link: '/en/guide'
-    }
   }
 })
