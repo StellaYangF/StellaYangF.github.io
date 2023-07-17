@@ -1,0 +1,26 @@
+{
+  "name": "stella.github.io",
+  "version": "1.0.0",
+  "description": "Frontend technology learning notes.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "keywords": [
+    "frontend",
+    "vue",
+    "vite",
+    "rollup",
+    "performance",
+    "net",
+    "compiler"
+  ],
+  "author": "Stella",
+  "license": "MIT",
+  "devDependencies": {
+    "vitepress": "^1.0.0-beta.5"
+  }
+}
