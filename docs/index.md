@@ -8,7 +8,7 @@ hero:
   actions:
     - theme: brand
       text: 快速预览
-      link: /guideline
+      link: /guide
 
 features:
   - title: 积极主动
