@@ -1,10 +1,10 @@
-# Stella Blog
+# Stella 博客
 
-## Frontend Technology
+## 前端技术
 
-Recording the learning notes.
+记录前端学习笔记。
 
-### Guideline
+### 技术概览
 
 1. Vue
 2. Vite
@@ -17,11 +17,10 @@ Recording the learning notes.
 9. V8
 10. Garbage Collection 
 
-## Reading
+## 阅读
 
-Recoding reading notes as well as the book lists.
-
-### Tech Books
+记录已读和在读书单，陆续添加阅读感悟。
+### 技术书
 
 - 《你不知道的JavaScript》上卷
 - 《你不知道的JavaScript》中卷
@@ -34,7 +33,7 @@ Recoding reading notes as well as the book lists.
 - 《UNIX网络编程》卷2
 
 
-### Other Books
+### 其他书单
 
 - 《被讨厌的勇气》 
 - 《思考快与慢》
