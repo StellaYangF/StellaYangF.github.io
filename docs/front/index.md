@@ -6,7 +6,7 @@
 
 快速导航技术要点，主攻源码的学习积累。
 
-- [vue3 源码学习](./vue3/)
+- [vue3 源码学习](./vue/)
 - [webpack 源码学习](./webpack/)
 - [rollup 源码学习](./rollup/)
 - [vite 源码学习](./vite/)

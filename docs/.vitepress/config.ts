@@ -1,7 +1,6 @@
 import { defineConfig } from 'vitepress'
 
 export default defineConfig({
-  lang: "zh-CN",
   title: 'Stella Blog',
   outDir: "../blog",
   base: "/blog/",
@@ -21,7 +20,7 @@ export default defineConfig({
       '/front': [
         {
           text: 'vue3', collapsed: false, items: [
-            { text: '设计思想', link: '/front/vue/' },
+            { text: 'vue3设计思想', link: '/front/vue/' },
             { text: '整体架构', link: '/front/vue/architect' },
             { text: '实现-环境搭建', link: '/front/vue/env' }
           ]

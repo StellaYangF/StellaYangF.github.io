@@ -1,0 +1,1 @@
+import{_ as a,o as e,c as i,U as t}from"./chunks/framework.e95afc2d.js";const f=JSON.parse('{"title":"前端","description":"","frontmatter":{},"headers":[],"relativePath":"front/index.md","filePath":"front/index.md"}'),l={name:"front/index.md"},r=t("",7),o=[r];function n(c,s,_,d,h,p){return e(),i("div",null,o)}const m=a(l,[["render",n]]);export{f as __pageData,m as default};
