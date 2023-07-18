@@ -225,10 +225,10 @@ const packageConfigs =  packageFormats || pkg.buildOptions.formats;
 
 import json from '@rollup/plugin-json'
 import commonjs from '@rollup/plugin-commonjs';
-import {nodeResolve} from '@rollup/plugin-node-resolve'
+import { nodeResolve } from '@rollup/plugin-node-resolve'
 import tsPlugin from 'rollup-plugin-typescript2'
 
-function createConfig(format,output){
+function createConfig(format, output){
   output.sourcemap = process.env.SOURCE_MAP;
   output.exports = 'named'; 
   let external = []

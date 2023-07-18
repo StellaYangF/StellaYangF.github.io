@@ -25,23 +25,23 @@ export default defineConfig({
             { text: '实现-环境搭建', link: '/front/vue/env' }
           ]
         },
-        {
-          text: '工程化', collapsed: false, items: [
-            { text: 'webpack', link: '/front/webpack/' },
-            { text: 'rollup', link: '/front/rollup/' },
-            { text: 'vite', link: '/front/vite/' }
-          ]
-        },
+        // {
+        //   text: '工程化', collapsed: false, items: [
+        //     { text: 'webpack', link: '/front/webpack/' },
+        //     { text: 'rollup', link: '/front/rollup/' },
+        //     { text: 'vite', link: '/front/vite/' }
+        //   ]
+        // },
         {
           text: '性能', collapsed: false, items: [
             { text: '性能优化', link: '/front/performance/' }
           ]
         },
-        {
-          text: '测试', collapsed: false, items: [
-            { text: '测试工具', link: '/front/test/' }
-          ]
-        },
+        // {
+        //   text: '测试', collapsed: false, items: [
+        //     { text: '测试工具', link: '/front/test/' }
+        //   ]
+        // },
         {
           text: '技术汇总', collapsed: false, items: [
             { text: 'DOM 事件', link: '/front/overview/' },
