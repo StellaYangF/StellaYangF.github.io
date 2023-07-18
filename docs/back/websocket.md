@@ -4,27 +4,18 @@
 - **HTML5** 开始提供的一种浏览器与服务器进行全双工通讯的网络技术
 - 属于应用层协议，它基于 TCP 传输协议，并复用 HTTP 的握手通道
 
-![httpwebsocket](/httpwebsocket.png)
+![httpwebsocket](./httpwebsocket.png)
 
 ## websocket 实战
 
 ### 下载 ws 包
 
-<highlight>
-
-:::slot default
 ```bash
 npm init -y
 npm i ws -S
 ```
-:::
-</highlight>
-
 ### server.js
 
-<highlight>
-
-:::slot default
 ```js
 const { Server } = require('ws');
 const wss = new Server({ port: 8080 });
@@ -32,16 +23,11 @@ wss.on('connection', socket => {
   socket.on('message', message => socket.send(message));
 })
 ```
-:::
-</highlight>
 
 > Tip: 这里是将 http 链接发送的 消息直接返回。
 
 ### client.js
 
-<highlight>
-
-:::slot default
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -68,25 +54,19 @@ wss.on('connection', socket => {
 </body>
 </html>
 ```
-:::
-</highlight>
-
 ## websocket 连接
 - WebSocket 复用了 HTTP 的握手通道
 - 具体指的是,客户端通过 HTTP 请求与 WebSocket 服务端协商升级协议
 - **协议升级**完成后,后续的数据交换则遵照 WebSocket 的协议
 
-![websocketconnecting](/websocketconnecting.jpg)
-![websocketconnect](/websocketconnect.png)
-![wiresharkws](/wiresharkws.png)
+![websocketconnecting](./websocketconnecting.jpg)
+![websocketconnect](./websocketconnect.png)
+![wiresharkws](./wiresharkws.png)
 
 ### 客户端：申请协议升级
 - 首先客户端发起协议升级请求
 - 请求采用的是标准的 HTTP 报文格式，且只支持 GET 方法
 
-<highlight>
-
-:::slot default
 ```bash
 GET ws://localhost:8080/ HTTP/1.1
 Host: localhost:8080
@@ -95,8 +75,6 @@ Upgrade: websocket
 Sec-WebSocket-Version: 13
 Sec-WebSocket-Key: IHfMdf8a0aQXbwQO1pkGdA==
 ```
-:::
-</highlight>
 
 | 字段 | 含义 |
 -|-|-
@@ -110,17 +88,12 @@ Sec-WebSocket-Key	| 与后面服务端响应首部的 Sec-WebSocket-Accept 是�
   - 状态代码 **101** 表示协议切换
 - 到此完成协议升级，后续的数据交互都按照新的协议来
 
-<highlight>
-
-:::slot default
 ```bash
 HTTP/1.1 101 Switching Protocols
 Upgrade: websocket
 Connection: Upgrade
 Sec-WebSocket-Accept: aWAY+V/uyz5ILZEoWuWdxjnlb7E=
 ```
-:::
-</highlight>
 
 | 字段 | 含义 | 
 - | - | -
@@ -134,9 +107,6 @@ Sec-WebSocket-Accept 根据客户端请求首部的 Sec-WebSocket-Key 计算出�
   - 将 Sec-WebSocket-Key 跟 258EAFA5-E914-47DA-95CA-C5AB0DC85B11 拼接
   - 通过 SHA1 计算出摘要，并转成 base64 字符串
 
-<highlight>
-
-:::slot default
 ```js
 const crypto = require('crypto');
 const CODE = '258EAFA5-E914-47DA-95CA-C5AB0DC85B11';
@@ -147,8 +117,6 @@ const webSocketKey = 'IHfMdf8a0aQXbwQO1pkGdA==';
 console.log(toAcceptKey(webSocketKey)); 
 //aWAY+V/uyz5ILZEoWuWdxjnlb7E=
 ```
-:::
-</highlight>
 
 ## 数据帧格式
 - WebSocket 客户端、服务端通信的最小单位是**帧**，由 1 个或多个[帧](https://tools.ietf.org/html/rfc6455#section-5.2)组成一条完整的消息（message）
@@ -158,28 +126,25 @@ console.log(toAcceptKey(webSocketKey));
 ### bit 和 byte
 比特就是 bit 二进制数系统中, 每个 0 或 1 就是一个位(bit), 位是**数据存储**的最小单位
 其中8个bit就称为一个字节(Byte)
-![bitbyte](/bitbyte.jpg)
+![bitbyte](./bitbyte.jpg)
 
 ### 位运算符
 ####  按位与(&)
 两个输入数的同一位都为 1 才为 1
-![bitand2](/bitand2.png)
+![bitand2](./bitand2.png)
 
 ####  按位或(|)
 两个输入数的同一位只要有一个为1就是1
-![bitor2.png](/bitor2.png)
+![bitor2.png](./bitor2.png)
 
 ####  按位异或(^) 
 两个输入数的同一位不同就是1,如果相同就设为0
-![bitarrow2.png](/bitarrow2.png)
+![bitarrow2.png](./bitarrow2.png)
 
 ###  数据帧格式
 单位是比特 比如FIN、RSV1各占据1比特,opcode占据4比特
-![websocketframe](/websocketframe.jpg)
+![websocketframe](./websocketframe.jpg)
 
-<highlight>
-
-:::slot default
 ```bash
   0                   1                   2                   3
   0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -200,8 +165,6 @@ console.log(toAcceptKey(webSocketKey));
  |                     Payload Data continued ...                |
  +---------------------------------------------------------------+
 ```
-:::
-</highlight>
 
 | 字段 | 含义 |
 - | - | -
@@ -236,22 +199,13 @@ Opcode
 - Big-endian(大端序) 高位字节在前
 Little-endian(小端序) 低位字节在前
 
-<highlight>
-
-:::slot default
 ```js
 let buffer = Buffer.from([0b00000001, 0b00000000]);
 console.log(Math.pow(2, 8));
 console.log(buffer.readUInt16BE(0));// 00000001 00000000
 console.log(buffer.readUInt16LE(0));// 00000000 00000001
 ```
-:::
-</highlight>
 
-
-<highlight>
-
-:::slot default
 ```js
 function getLength(buffer) {
     const byte = buffer.readUInt8(1);
@@ -269,17 +223,12 @@ console.log(getLength(Buffer.from([0b10000001, 0b10000001])));
 console.log(getLength(Buffer.from([0b10000001, 0b11111110, 0b00000000, 0b00000001])));
 console.log(getLength(Buffer.from([0b10000001, 0b11111111, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00000001])));
 ```
-:::
-</highlight>
 
 ### 掩码算法
 - 掩码键（Masking-key）是由客户端挑选出来的32bit的随机数,掩码操作不会影响数据载荷的长度
 - 掩码和反掩码操作都采用如下算法
 - 对索引 i 模以 4 得到结果并对原来的索引进行异或操作
 
-<highlight>
-
-:::slot default
 ```js
 function unmask(buffer, mask) {
     const length = buffer.length;
@@ -293,14 +242,9 @@ let buffer = Buffer.from([0, 1, 0, 1, 0, 1, 0, 1]);
 unmask(buffer, mask);
 console.log(buffer);
 ```
-:::
-</highlight>
 
 ## 实现websocket服务器
 
-<highlight>
-
-:::slot default
 ```js
 const net = require('net');
 const { EventEmitter } = require('events');
@@ -405,5 +349,3 @@ function unmask(buffer, mask) {
 
 exports.Server = Server;
 ```
-:::
-</highlight>

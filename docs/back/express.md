@@ -385,9 +385,6 @@ const proto = {};
 - 为什么要重写构造函数？
     - 供二级路由使用
 
-    <highlight>
-
-    ::: slot default
     ```js
     // user 就是一个中间件，
     const user = new app.Router();
@@ -395,9 +392,6 @@ const proto = {};
     app.use('user', user);
     // user 函数调用就是 router 调用，进而调用 router.handle 函数
     ```
-    :::
-    </highlight>
-
 
 ```js
 function Router() {
