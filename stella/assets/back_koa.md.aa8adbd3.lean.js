@@ -1,1 +1,0 @@
-import{_ as s,o as n,c as a,V as l}from"./chunks/framework.d639b781.js";const i=JSON.parse('{"title":"koa 简介","description":"","frontmatter":{},"headers":[],"relativePath":"back/koa.md","filePath":"back/koa.md"}'),p={name:"back/koa.md"},o=l("",36),e=[o];function t(c,r,F,y,D,A){return n(),a("div",null,e)}const d=s(p,[["render",t]]);export{i as __pageData,d as default};

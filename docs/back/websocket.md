@@ -4,7 +4,7 @@
 - **HTML5** 开始提供的一种浏览器与服务器进行全双工通讯的网络技术
 - 属于应用层协议，它基于 TCP 传输协议，并复用 HTTP 的握手通道
 
-![httpwebsocket](./httpwebsocket.png)
+![httpwebsocket](./assets/httpwebsocket.png)
 
 ## websocket 实战
 
@@ -59,9 +59,9 @@ wss.on('connection', socket => {
 - 具体指的是,客户端通过 HTTP 请求与 WebSocket 服务端协商升级协议
 - **协议升级**完成后,后续的数据交换则遵照 WebSocket 的协议
 
-![websocketconnecting](./websocketconnecting.jpg)
-![websocketconnect](./websocketconnect.png)
-![wiresharkws](./wiresharkws.png)
+![websocketconnecting](./assets/websocketconnecting.jpg)
+![websocketconnect](./assets/websocketconnect.png)
+![wiresharkws](./assets/wiresharkws.png)
 
 ### 客户端：申请协议升级
 - 首先客户端发起协议升级请求
@@ -126,24 +126,24 @@ console.log(toAcceptKey(webSocketKey));
 ### bit 和 byte
 比特就是 bit 二进制数系统中, 每个 0 或 1 就是一个位(bit), 位是**数据存储**的最小单位
 其中8个bit就称为一个字节(Byte)
-![bitbyte](./bitbyte.jpg)
+![bitbyte](./assets/bitbyte.jpg)
 
 ### 位运算符
 ####  按位与(&)
 两个输入数的同一位都为 1 才为 1
-![bitand2](./bitand2.png)
+![bitand2](./assets/bitand2.png)
 
 ####  按位或(|)
 两个输入数的同一位只要有一个为1就是1
-![bitor2.png](./bitor2.png)
+![bitor2.png](./assets/bitor2.png)
 
 ####  按位异或(^) 
 两个输入数的同一位不同就是1,如果相同就设为0
-![bitarrow2.png](./bitarrow2.png)
+![bitarrow2.png](./assets/bitarrow2.png)
 
 ###  数据帧格式
 单位是比特 比如FIN、RSV1各占据1比特,opcode占据4比特
-![websocketframe](./websocketframe.jpg)
+![websocketframe](./assets/websocketframe.jpg)
 
 ```bash
   0                   1                   2                   3

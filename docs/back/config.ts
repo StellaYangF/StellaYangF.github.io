@@ -3,26 +3,27 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   lang: "zh-CN",
   title: 'Stella Blog',
-  outDir: "../stella",
-  base: "/stella/",
+  outDir: "../blog",
+  base: "/blog/",
   description: "Frontend technology learning notes.",
+  markdown: {
+    lineNumbers: true
+  },
   themeConfig: {
-    search: {
-      provider: 'local'
-    },
     nav: [
       { text: '概览', link: '/guide' },
       { text: '前端', link: '/front/', activeMatch: '/front/' },
-      { text: '后端', link: '/back/', activeMatch: '/back/' },
+      { text: '后端', link: '/back/express', activeMatch: '/back/' },
       { text: '数据结构与算法', link: '/algorithm/' }
     ],
 
     sidebar: {
       '/front': [
         {
-          text: '框架', collapsed: false, items: [
-            { text: 'vue3', link: '/front/vue3/design' },
-            { text: 'axios', link: '/front/axios' },
+          text: 'vue3', collapsed: false, items: [
+            { text: '设计思想', link: '/front/vue/' },
+            { text: '整体架构', link: '/front/vue/architect' },
+            { text: '实现-环境搭建', link: '/front/vue/env' }
           ]
         },
         {
@@ -54,6 +55,7 @@ export default defineConfig({
         { text: 'express', link: '/back/express' },
         { text: 'koa', link: '/back/koa' },
         { text: 'websocket', link: '/back/websocket' },
+        { text: 'axios', link: '/back/axios' },
       ]
     },
     socialLinks: [

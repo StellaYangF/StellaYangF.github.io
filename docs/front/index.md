@@ -4,11 +4,12 @@
 
 ## 目录
 
-- [框架](./vue3/design)
-- [工程化](./webpack/)
-- [性能优化](./performance/)
-- [测试](./test/)
-- [技术补充](./overview/)
+快速导航技术要点，主攻源码的学习积累。
+
+- [vue3 源码学习](./vue3/)
+- [webpack 源码学习](./webpack/)
+- [rollup 源码学习](./rollup/)
+- [vite 源码学习](./vite/)
 
 ## 组织
 
