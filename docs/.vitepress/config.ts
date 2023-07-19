@@ -23,7 +23,8 @@ export default defineConfig({
             { text: 'vue3设计思想', link: '/front/vue/' },
             { text: '整体架构', link: '/front/vue/architect' },
             { text: '环境搭建', link: '/front/vue/env' },
-            { text: '响应式模块', link: '/front/vue/reactivity' }
+            { text: '响应式模块', link: '/front/vue/reactivity' },
+            { text: 'computed & watch', link: '/front/vue/computedWatch' },
           ]
         },
         // {
