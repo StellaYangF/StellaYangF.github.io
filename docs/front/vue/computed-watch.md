@@ -1,5 +1,7 @@
 # computed & watch
 
+[[toc]]
+
 ## computed 实现原理
 
 - 接受一个 getter 函数，并根据 getter 的返回值返回一个不可变的响应式 ref 对象。
@@ -257,3 +259,7 @@ const timer2 = setTimeout(() => state.age = 20) // 2s后返回
 const timer3 = setTimeout(() => state.age = 21) // 1s后返回 newVal
 ```
 :::
+
+## 图解 computed
+
+![图解 computed](../assets/computed.png)

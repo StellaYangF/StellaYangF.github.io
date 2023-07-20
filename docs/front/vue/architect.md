@@ -1,5 +1,7 @@
 # 架构介绍
 
+[[toc]]
+
 ## monorepo 管理代码
 
 Vue3源码采用 monorepo 方式进行管理，将模块拆分到 package 目录中。

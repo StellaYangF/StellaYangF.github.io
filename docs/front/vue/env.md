@@ -1,4 +1,5 @@
 # 实现
+[[toc]]
 
 ## 环境搭建
 
@@ -75,6 +76,8 @@ pnpm tsc --init
 
 ## 创建模块
 
+### packages
+
 核心包都放在 packages 目录下管理，先新建两个包
 
 - reactivity 响应式模块
@@ -117,15 +120,44 @@ pnpm tsc --init
 ```
 :::
 
-formats 类型
-- esm-bundler 在构建工具中使用的格式
-- esm-browser 在浏览器中使用的格式
-- cjs 在 node 中使用的格式
-- global 立即执行函数的格式
+>  `formats` 类型
+> - `esm-bundler` 在构建工具中使用的格式
+> - `esm-browser` 在浏览器中使用的格式
+> - `cjs` 在 node 中使用的格式
+> - `global` 立即执行函数的格式
 
 
-reactivity 想要依赖 shared 内部方法，配置 ts 引用关系
-```json
+### 模块间引用
+
+- `reactivity` 想要依赖 `shared` 内部方法，配置 `ts` 引用关系
+- 命令行执行 `pnpm install referee@workspace --filter referrer`
+  - `referrer` 引用方会新增对应的 `dependency`
+  - `pnpm publish` 发包时，`@workspace` 会被替换为发布后的版本号，如：`@vue/shared^1.0.0`
+
+::: code-group
+```json [reactivity/package.json]
+{
+  "name": "@vue/runtime-dom",
+  "version": "1.0.0",
+  "description": "runtime-dom",
+  "main": "index.js",
+  "module": "dist/runtime-dom.esm-bundler.js",
+  "unpkg": "dist/runtime-dom.global.js",
+  "buildOptions": {
+    "name": "VueRuntimeDom",
+    "formats": [
+      "esm-bundler",
+      "cjs",
+      "global"
+    ]
+  },
+  "dependencies": { // [!code ++]
+    "@vue/shared": "workspace:^1.0.0" // [!code ++]
+  } // [!code ++]
+}
+```
+
+```json [tsconfig.json]
 {
   "baseUrl": ".",
   "paths": {
@@ -133,6 +165,7 @@ reactivity 想要依赖 shared 内部方法，配置 ts 引用关系
   }
 }
 ```
+:::
 
 ## 打包
 

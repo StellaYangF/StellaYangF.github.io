@@ -1,5 +1,7 @@
 # 响应式模块
 
+[[toc]]
+
 ## 数据劫持
 
 - Vue2 使用 `defineProperty` 来进行数据的劫持, 需要对属性进行重写添加 `getter` 及 `setter` 性能差

@@ -11,9 +11,24 @@ export default defineConfig({
   themeConfig: {
     nav: [
       { text: '概览', link: '/guide' },
-      { text: '前端', link: '/front/', activeMatch: '/front/' },
-      { text: '后端', link: '/back/express', activeMatch: '/back/' },
-      { text: '数据结构与算法', link: '/algorithm/' }
+      {
+        text: '前端', activeMatch: '/front/', items: [
+          { text: 'vue3', link: '/front/vue/', activeMatch: '/front/vue/' },
+          { text: 'performance', link: '/front/performance/' },
+          { text: '相关技术', link: '/front/overview/' }
+        ]
+      },
+      {
+        text: '后端', activeMatch: '/back/', items: [
+          { text: 'express', link: '/back/express' },
+          { text: 'koa', link: '/back/koa' },
+          { text: 'websocket', link: '/back/websocket' },
+          { text: 'axios', link: '/back/axios' },
+          { text: 'cookie vs session', link: '/back/cookie-session' },
+          { text: 'http', link: '/back/http' },
+        ]
+      },
+      // { text: '数据结构与算法', link: '/algorithm/overview/' }
     ],
 
     sidebar: {
@@ -24,7 +39,14 @@ export default defineConfig({
             { text: '整体架构', link: '/front/vue/architect' },
             { text: '环境搭建', link: '/front/vue/env' },
             { text: '响应式模块', link: '/front/vue/reactivity' },
-            { text: 'computed & watch', link: '/front/vue/computedWatch' },
+            { text: 'computed & watch', link: '/front/vue/computed-watch' },
+            { text: 'ref', link: '/front/vue/ref' },
+            { text: '实现自定义渲染器', link: '/front/vue/runtime-render' },
+            { text: 'runtime-dom', link: '/front/vue/runtime-dom' },
+            { text: 'runtime-core', link: '/front/vue/runtime-core' },
+            { text: 'diff 算法', link: '/front/vue/render-diff' },
+            { text: '渲染Text和Fragment', link: '/front/vue/render-text-fragment' },
+            { text: '渲染组件', link: '/front/vue/render-component' },
           ]
         },
         // {
@@ -36,7 +58,7 @@ export default defineConfig({
         // },
         {
           text: '性能', collapsed: false, items: [
-            { text: '性能优化', link: '/front/performance/' }
+            { text: 'performance', link: '/front/performance/' }
           ]
         },
         // {
@@ -57,6 +79,8 @@ export default defineConfig({
         { text: 'koa', link: '/back/koa' },
         { text: 'websocket', link: '/back/websocket' },
         { text: 'axios', link: '/back/axios' },
+        { text: 'cookie vs session', link: '/back/cookie-session' },
+        { text: 'http', link: '/back/http' },
       ]
     },
     socialLinks: [
