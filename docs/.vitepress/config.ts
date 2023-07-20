@@ -44,9 +44,10 @@ export default defineConfig({
             { text: '实现自定义渲染器', link: '/front/vue/runtime-render' },
             { text: 'runtime-dom', link: '/front/vue/runtime-dom' },
             { text: 'runtime-core', link: '/front/vue/runtime-core' },
-            { text: 'diff 算法', link: '/front/vue/render-diff' },
-            { text: '渲染Text和Fragment', link: '/front/vue/render-text-fragment' },
+            { text: '渲染元素-diff 算法', link: '/front/vue/render-diff' },
+            { text: '渲染Text、Fragment', link: '/front/vue/render-text-fragment' },
             { text: '渲染组件', link: '/front/vue/render-component' },
+            { text: '渲染组件-setup函数', link: '/front/vue/render-setup' },
           ]
         },
         // {
