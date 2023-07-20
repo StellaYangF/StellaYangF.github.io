@@ -1,0 +1,1 @@
+import{_ as t,o as e,c as r}from"./chunks/framework.e95afc2d.js";const d=JSON.parse('{"title":"","description":"","frontmatter":{},"headers":[],"relativePath":"front/performance/http.md","filePath":"front/performance/http.md"}'),a={name:"front/performance/http.md"};function o(n,c,p,s,f,m){return e(),r("div")}const i=t(a,[["render",o]]);export{d as __pageData,i as default};

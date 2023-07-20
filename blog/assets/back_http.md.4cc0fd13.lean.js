@@ -1,0 +1,1 @@
+import{_ as e,o as l,c as i,U as o}from"./chunks/framework.e95afc2d.js";const P=JSON.parse('{"title":"HTTP 协议","description":"","frontmatter":{},"headers":[],"relativePath":"back/http.md","filePath":"back/http.md"}'),c={name:"back/http.md"},t=o("",20),d=[t];function a(n,s,r,p,h,u){return l(),i("div",null,d)}const m=e(c,[["render",a]]);export{P as __pageData,m as default};

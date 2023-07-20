@@ -1,0 +1,1 @@
+import{_ as t,o as l,c as e,U as i}from"./chunks/framework.e95afc2d.js";const u=JSON.parse('{"title":"TCP 协议","description":"","frontmatter":{},"headers":[],"relativePath":"back/tcp.md","filePath":"back/tcp.md"}'),a={name:"back/tcp.md"},c=i("",5),_=[c];function o(r,s,n,p,d,C){return l(),e("div",null,_)}const T=t(a,[["render",o]]);export{u as __pageData,T as default};
