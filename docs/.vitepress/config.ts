@@ -48,6 +48,10 @@ export default defineConfig({
             { text: '渲染Text、Fragment', link: '/front/vue/render-text-fragment' },
             { text: '渲染组件', link: '/front/vue/render-component' },
             { text: '渲染组件-setup函数', link: '/front/vue/render-setup' },
+            { text: '渲染-优化', link: '/front/vue/render-optimize' },
+            { text: '编译-parse', link: '/front/vue/compiler-parse' },
+            { text: '编译-transform', link: '/front/vue/compiler-transform' },
+            { text: '编译-generate', link: '/front/vue/compiler-generate' },
           ]
         },
         // {

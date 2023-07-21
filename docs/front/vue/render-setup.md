@@ -1,5 +1,7 @@
 # 组件 setup 函数
 
+[[toc]]
+
 组件的 render 函数每次更新时都会重新执行，但是 setup 函数只会在组件挂载时执行一次。
 
 - `setup` 函数是 `compositionAPI` 的入口
@@ -35,7 +37,7 @@ render(h(VueComponent, { address: 'Wuhan' }), app);
 ```
 :::
 
-## 解析 setup 函数
+## setup 函数解析
 
 ::: code-group
 ```ts{12-21} [setupComponent]
@@ -74,7 +76,7 @@ export function setupComponent(instance){
 ```
 :::
 
-## 新增取值范围
+## setupState 新增取值
 
 ::: code-group
 ```ts{8-11} [PublicInstanceProxyHandlers]
@@ -112,7 +114,7 @@ const PublicInstanceProxyHandlers = {
 ```
 :::
 
-## 实现 emit 方法
+## emit 实现
 
 ::: code-group
 ```ts [setupComponent]
@@ -213,7 +215,7 @@ render(h(VueComponent),app)
 ```
 :::
 
-## 生命周期实现原理
+## lifecycle 实现
 
 生命周期需要让当前实例关联对应的生命周期，这样在组件构建过程中就可以调用对应的钩子
 
