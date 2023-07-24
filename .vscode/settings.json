@@ -1,5 +1,7 @@
 {
   "cSpell.words": [
+    "codegen",
+    "deindent",
     "execa",
     "exisiting",
     "pinia",
@@ -10,6 +12,7 @@
     "VDOM",
     "vitepress",
     "vnode",
-    "Vuejs"
+    "Vuejs",
+    "withoutnewline"
   ]
 }

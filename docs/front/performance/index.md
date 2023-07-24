@@ -167,21 +167,23 @@ Page: I'm just reading the HTML here, and it looks like I'm going to need a styl
 
 ## 发送请求
 
-- 避免多余重定向
+### 避免多余重定向
   
   重定向分为 301 的永久重定向和 302 的临时重定向。
   
   建议贴合语义，例如服务迁移的情况下，使用 301 重定向。对 SEO 也会更友好。
 
-- DNS 预解析
+### DNS 预解析
   
   `<link rel="dns-prefetch" href="//yourwebsite.com">`
 
-- 预先建立连接
+### 预先建立连接
   
   `<link rel="preconnect" href="//sample.com" crossorigin>`
 
-- 使用 CDN 静态资源，我们可以考虑通过 CDN 来降低时延。
+### 使用 CDN 静态资源
+
+我们可以考虑通过 CDN 来降低时延。
 
 ## 服务端响应
 
@@ -197,21 +199,19 @@ Page: I'm just reading the HTML here, and it looks like I'm going to need a styl
 
 ## 页面解析与处理
 
-要注意的点：
-
-- 注意资源在页面文档中的位置
+### 注意资源在页面文档中的位置
   - HTML 解析为 DOM Tree，CSS 解析为 CSSOM，两者再合成 Render Tree，并行执行，非常完美。然而，当 JavaScript 入场之后，局面就变了：
-  - 根据标准规范，在 JavaScript 中可以访问 DOM。因此当遇到 JavaScript 后会阻塞 DOM 的解析。于此同时，为避免 CSS 与 JavaScript 之间的竞态，CSSOM 的构建会阻塞 JavaScript 的脚本执行。总结起来就是 ——
+  - 根据标准规范，在 JavaScript 中可以访问 DOM。因此当遇到 JavaScript 后会阻塞 DOM 的解析。同时，为避免 CSS 与 JavaScript 之间的竞态，CSSOM 的构建会阻塞 JavaScript 的脚本执行。总结起来就是 ——
 
-  - JavaScript 会阻塞 DOM 构建，而 CSSOM 的构建又回阻塞 JavaScript 的执行。
+  - JavaScript 会阻塞 DOM 构建，而 CSSOM 的构建又会阻塞 JavaScript 的执行。
 
-- 使用 defer 和 async
+### 使用 defer 和 async
   - 两者都会防止 JavaScript 脚本的下载阻塞 DOM 构建
-  - defer 会在 HTML 解析完成后，按照脚本出现的次序再顺序执行；
-  - async 则是下载完成就立即开始执行，同时阻塞页面解析，不保证脚本间的执行顺序。
+  - `defer` 会在 HTML 解析完成后，按照脚本出现的次序再顺序执行；
+  - `async` 则是下载完成就立即开始执行，同时**阻塞**页面解析，不保证脚本间的执行顺序。
   - 推荐在一些与主业务无关的 JavaScript 脚本上使用 async。例如统计脚本、监控脚本、广告脚本等。这些脚本一般都是一份独立的文件，没有外部依赖，不需要访问 DOM，也不需要有严格的执行时机限制。在这些脚本上使用 async 可以有效避免这些非核心功能的加载影响页面解析速度。
 
-- 页面文档压缩
+### 页面文档压缩
 
 ## 页面静态资源
 
@@ -273,9 +273,11 @@ Page: I'm just reading the HTML here, and it looks like I'm going to need a styl
 - 使用CDN加速，将通用的库从vendor进行抽离
 - Nginx的gzip压缩
 - Vue异步组件
-服务端渲染SSR
+服务端渲染 SSR
 - 如果使用了一些UI库，采用按需加载
-- Webpack开启gzip压缩
+- Webpack 开启 gzip 压缩
 - 如果首屏为登录页，可以做成多入口
-- Service Worker缓存文件处理
-- 使用link标签的rel属性设置 prefetch（这段资源将会在未来某个导航或者功能要用到，但是本资源的下载顺序权重比较低，prefetch通常用于加速下一次导航）、preload（preload将会把资源得下载顺序权重提高，使得关键数据提前下载好，优化页面打开速度）
+- Service Worker 缓存文件处理
+- 使用 link 标签的 rel 属性设置
+  - `prefetch`: 这段资源将会在未来某个导航或者功能要用到，但是本资源的下载顺序权重比较低，prefetch通常用于加速下一次导航
+  - `preload`: preload将会把资源得下载顺序权重提高，使得关键数据提前下载好，优化页面打开速度

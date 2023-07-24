@@ -199,3 +199,188 @@ function patchBlockChildren(n1,n2){
 - 默认根节点 block，切换 `flag` 的状态，无法从 `p` 标签切换到 `div` 标签。
 - 理解为，`flag`绑定在p上，忽略内层的span
 - 解决方案：就是将不稳定的结构也作为block来进行处理
+
+> 不稳结构就是 DOM 树的结构可能会发生变化，包括 v-if/v-for/Fragment
+
+### v-if
+
+::: code-group
+```ts [code]
+// 编译后的结果
+return function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (_openBlock(), _createElementBlock("div", null, [
+    (_ctx.flag)
+      ? (_openBlock(), _createElementBlock("div", { key: 0 }, [
+          _createElementVNode("span", null, _toDisplayString(_ctx.a), 1 /* TEXT */)
+        ]))
+      : (_openBlock(), _createElementBlock("div", { key: 1 }, [
+          _createElementVNode("p", null, [
+            _createElementVNode("span", null, _toDisplayString(_ctx.a), 1 /* TEXT */)
+          ])
+        ]))
+  ]))
+}
+
+Block(div)
+	Block(div,{key:0})
+	Block(div,{key:1})
+```
+
+```html [example]
+<div>
+  <div v-if="flag">
+    <span>{{a}}</span>
+  </div>
+  <div v-else>
+    <p><span>{{a}}</span></p>
+  </div>
+</div>
+```
+:::
+
+### v-for
+随着 v-for 变量的变化也会导致虚拟 DOM 树变得不稳定
+编译后的渲染方法，调用 `_renderList`
+
+::: code-group
+```ts [code]
+export function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (_openBlock(true), _createElementBlock(_Fragment, null, _renderList(_ctx.fruits, (item) => {
+    return (_openBlock(), _createElementBlock("div", null, _toDisplayString(item), 1 /* TEXT */))
+  }), 256 /* UNKEYED_FRAGMENT */))
+}
+```
+
+```html [example]
+<div>
+  <div v-for="item in fruits">{{ item }}</div>
+</div>
+```
+:::
+
+> 可以试想一下，如果不增加这个 block，前后元素不一致是无法做到靶向更新的。因为 dynamicChildren 中还有可能有其他层级的元素。同时这里还生成了一个 Fragment，因为前后元素个数不一致，所以称之为不稳定序列。
+
+### Fragment
+
+分类：
+- STABLE_FRAGMENT
+- KEYED_FRAGMENT
+- UNKEYED_FRAGMENT
+- DEV_ROOT_FRAGMENT
+
+::: code-group
+```ts [code]
+export function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (_openBlock(), _createElementBlock("div", null, [
+    (_openBlock(), _createElementBlock(_Fragment, null, _renderList(3, (item) => {
+      return _createElementVNode("div", null, _toDisplayString(item), 1 /* TEXT */)
+    }), 64 /* STABLE_FRAGMENT */))
+  ]))
+}
+```
+
+```html [example]
+<div>
+    <div v-for="item in 3">{{item}}</div>  
+</div>
+```
+:::
+
+## 静态提升
+
+### 提升原理
+- 模板直接转化成 render 函数，问题就是每次调用 render 函数都要重新创建虚拟节点。
+- 静态提升将静态的节点或者属性提升出去。
+- 静态提升是以树为单位，树中节点有动态的不会进行提升。
+
+::: code-group
+
+```ts [code]
+export function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (_openBlock(), _createElementBlock("div", null, [
+    _createElementVNode("span", null, "hello"),
+    _createElementVNode("span", {
+      a: "1",
+      b: "2"
+    }, _toDisplayString(_ctx.name), 1 /* TEXT */),
+    _createElementVNode("a", null, [
+      _createElementVNode("span", null, _toDisplayString(_ctx.age), 1 /* TEXT */)
+    ])
+  ]))
+}
+```
+```html [example]
+<div>
+  <span>hello</span> 
+  <span a=1 b=2>{{ name }}</span>
+  <a>
+    <span>{{ age }}</span>
+  </a>
+</div>
+```
+
+```ts [hoisted]
+const _hoisted_1 = /*#__PURE__*/_createElementVNode("span", null, "hello", -1 /* HOISTED */)
+const _hoisted_2 = {
+  a: "1",
+  b: "2"
+}
+
+export function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (_openBlock(), _createElementBlock("div", null, [
+    _hoisted_1,
+    _createElementVNode("span", _hoisted_2, _toDisplayString(_ctx.name), 1 /* TEXT */),
+    _createElementVNode("a", null, [
+      _createElementVNode("span", null, _toDisplayString(_ctx.age), 1 /* TEXT */)
+    ])
+  ]))
+}
+```
+:::
+
+### 预字符串化
+
+静态提升的节点都是静态的，将提升出来的节点字符串化。
+当连续静态节点超过20个时，会将静态节点序列化为字符串。
+
+::: code-group
+```ts [code]
+const _hoisted_1 = /*#__PURE__*/_createStaticVNode("<span>....</span>", 20)
+```
+
+```html [example]
+<div>
+  <span></span>
+      ...
+      ...
+  <span></span>
+</div>
+```
+
+:::
+
+### 缓存函数
+
+::: code-group
+```ts [code]
+// 每次调用render的时都要创建新函数
+export function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (_openBlock(), _createElementBlock("div", {
+    onClick: e=>_ctx.v = e.target.value
+  }, null, 8 /* PROPS */, ["onClick"]))
+}
+```
+
+```ts [cache]
+// 开启函数缓存后,函数会被缓存起来，后续可以直接使用
+export function render(_ctx, _cache, $props, $setup, $data, $options) {
+  return (_openBlock(), _createElementBlock("div", {
+    onClick: _cache[0] || (_cache[0] = e => _ctx.v = e.target.value)
+  }))
+}
+```
+
+```html [example]
+<div @click="e=>v=e.target.value"></div>
+```
+:::
