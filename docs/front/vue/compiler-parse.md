@@ -84,15 +84,15 @@ function isEnd(context) {
   const source = context.source;
   return !source;
 }
-const startDelimiter = ['<']
+const delimiters = ['<', '/>', '{{', '}}']
 function parseChildren(context) {
   const nodes = [];
   while (!isEnd(context)) {
     const s = context.source;
     let node;
-    if (s.startsWith('{{')){
+    if (s.startsWith(delimiters[2])){
       // 处理表达式类型
-    }else if(s[0] === startDelimiter[0]){
+    }else if(s[0] === delimiters[0]){
       // 标签的开头
       if(/[a-z]/i.test(s[1])){
         // 开始标签
