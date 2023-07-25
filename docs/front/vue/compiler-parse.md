@@ -84,14 +84,19 @@ function isEnd(context) {
   const source = context.source;
   return !source;
 }
+const startDelimiter = ['<']
 function parseChildren(context) {
   const nodes = [];
   while (!isEnd(context)) {
     const s = context.source;
     let node;
-    if (s.startsWith('{{')){ // 处理表达式类型
-    }else if(s[0] === '<'){ // 标签的开头
-        if(/[a-z]/i.test(s[1])){} // 开始标签
+    if (s.startsWith('{{')){
+      // 处理表达式类型
+    }else if(s[0] === startDelimiter[0]){
+      // 标签的开头
+      if(/[a-z]/i.test(s[1])){
+        // 开始标签
+      } 
     }
     if(!node){ // 文本的处理
         
@@ -114,7 +119,6 @@ function baseParse(template){
 function parseText(context) { // 123123{{name}}</div>
     const endTokens = ['<', '{{'];
     let endIndex = context.source.length;
-    // 假设遇到 < 就是文本的结尾。在假设遇到{{ 是文本结尾。最后找离的近的
     for (let i = 0; i < endTokens.length; i++) {
         const index = context.source.indexOf(endTokens[i], 1);
         if (index !== -1 && endIndex > index) {
@@ -193,8 +197,8 @@ function advancePositionWithMutation(context, s, endIndex) {
 ```ts
 function parseInterpolation(context) { 
   const start = getCursor(context); // 获取表达式的开头位置
-  const closeIndex = context.source.indexOf('}}', '{{'); // 找到结束位置
-  advanceBy(context, 2); // 去掉  {{
+  const closeIndex = context.source.indexOf('}}', '{{');
+  advanceBy(context, 2);
   const innerStart = getCursor(context); // 计算里面开始和结束
   const innerEnd = getCursor(context);
   const rawContentLength = closeIndex - 2; // 拿到内容
@@ -295,7 +299,7 @@ function parseTag(context){
   advanceBy(context, match[0].length); 
   advanceBySpaces(context);
   let props = parseAttributes(context); // 处理属性
-  // ......
+  // ...
   return {
     type: NodeTypes.ELEMENT,
     tag,
