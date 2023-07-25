@@ -84,13 +84,13 @@ function isEnd(context) {
   const source = context.source;
   return !source;
 }
-const delimiters = ['<', '/>', '{{', '}}']
+const delimiters = ['<', '{{', '}}', '/>']
 function parseChildren(context) {
   const nodes = [];
   while (!isEnd(context)) {
     const s = context.source;
     let node;
-    if (s.startsWith(delimiters[2])){
+    if (s.startsWith(delimiters[1])){
       // 处理表达式类型
     }else if(s[0] === delimiters[0]){
       // 标签的开头
@@ -117,14 +117,14 @@ function baseParse(template){
 
 ```ts
 function parseText(context) { // 123123{{name}}</div>
-    const endTokens = ['<', '{{'];
-    let endIndex = context.source.length;
-    for (let i = 0; i < endTokens.length; i++) {
-        const index = context.source.indexOf(endTokens[i], 1);
-        if (index !== -1 && endIndex > index) {
-            endIndex = index;
-        }
+  const delimiters = ['<', '{{', '}}', '/>']
+  let endIndex = context.source.length;
+  for (let i = 0; i < endTokens.length; i++) {
+    const index = context.source.indexOf(endTokens[i], 1);
+    if (index !== -1 && endIndex > index) {
+      endIndex = index;
     }
+  }
 }
 ```
 
