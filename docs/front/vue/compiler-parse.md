@@ -197,7 +197,7 @@ function advancePositionWithMutation(context, s, endIndex) {
 ```ts
 function parseInterpolation(context) { 
   const start = getCursor(context); // 获取表达式的开头位置
-  const closeIndex = context.source.indexOf('}}', '{{');
+  const closeIndex = context.source.indexOf(delimiters[2], delimiters[1]); // '}}', '{{'
   advanceBy(context, 2);
   const innerStart = getCursor(context); // 计算里面开始和结束
   const innerEnd = getCursor(context);
