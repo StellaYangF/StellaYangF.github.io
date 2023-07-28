@@ -2,57 +2,100 @@
 
 [[toc]]
 
-Vue3 新增组件，将制定内容渲染到制定容器中。
-默认内容都是渲染到元素 app 内，我们可以将其渲染到任意节点 
-传送门
+函数的返回值就是虚拟DOM。在 `Vue3` 中，所有的函数式组件都是用普通函数创建的。换句话说，不需要定义 `{ functional: true }` 组件选项。
 
-## 基本用法
+## 基本使用
 ```ts
-render(h(Teleport, { to: '#root' }, [123,456]), app)
+const functionalComponent = (props) => {
+	return h('div', 'hello' + props.name)
+}
+
+render(h(functionalComponent, {name: 'stella' }), app)
 ```
 
-## shapeFlag 类型
+## shapeFlag 新增类型
 
-```ts
-const shapeFlag = isString(type)  
-  ? ShapeFlags.ELEMENT: isTeleport(type)
-  ? ShapeFlags.TELEPORT: isObject(type)
-  ? ShapeFlags.STATEFUL_COMPONENT : isFunction(type) 
-  ? ShapeFlags.FUNCTIONAL_COMPONENT: 0
-```
+::: code-group
+```ts{19-20} [createVNode]
+function _createVNode(
+  type: VNodeTypes | ClassComponent | typeof NULL_DYNAMIC_COMPONENT,
+  props: (Data & VNodeProps) | null = null,
+  children: unknown = null,
+  patchFlag: number = 0,
+  dynamicProps: string[] | null = null,
+  isBlockNode = false
+): VNode {
 
-## 组件挂载
+  // encode the vnode type information into a bitmap
+  const shapeFlag = isString(type)
+    ? ShapeFlags.ELEMENT
+    : __FEATURE_SUSPENSE__ && isSuspense(type)
+    ? ShapeFlags.SUSPENSE
+    : isTeleport(type)
+    ? ShapeFlags.TELEPORT
+    : isObject(type)
+    ? ShapeFlags.STATEFUL_COMPONENT
+    : isFunction(type)
+    ? ShapeFlags.FUNCTIONAL_COMPONENT
+    : 0
 
-```ts
-if(shapeFlag & ShapeFlags.TELEPORT){
-  type.process(n1, n2, container, anchor, {
-    mountChildren,
-    patchChildren,
-    move(vnode, container, anchor){
-      hostInsert(vnode.component ? vnode.component.subTree.el : vnode.el, container, anchor)
-    }
-  })
+  return createBaseVNode(
+    type,
+    props,
+    children,
+    patchFlag,
+    dynamicProps,
+    shapeFlag,
+    isBlockNode,
+    true
+  )
 }
 ```
 
+```ts{3} [ShapeFlags]
+export const enum ShapeFlags {
+  ELEMENT = 1,
+  FUNCTIONAL_COMPONENT = 1 << 1,
+  STATEFUL_COMPONENT = 1 << 2,
+  TEXT_CHILDREN = 1 << 3,
+  ARRAY_CHILDREN = 1 << 4,
+  SLOTS_CHILDREN = 1 << 5,
+  TELEPORT = 1 << 6,
+  SUSPENSE = 1 << 7,
+  COMPONENT_SHOULD_KEEP_ALIVE = 1 << 8,
+  COMPONENT_KEPT_ALIVE = 1 << 9,
+  COMPONENT = ShapeFlags.STATEFUL_COMPONENT | ShapeFlags.FUNCTIONAL_COMPONENT
+}
+```
+:::
+
+## initProps
+
+属性初始化，如果是函数式组件则 `attrs` 就是函数式组件的 `props`
+
 ```ts
-export const TeleportImpl = {
-  __isTeleport: true,
-  process(n1,n2,container,anchor,internals){
-    let { mountChildren, patchChildren, move} = internals
-    if(!n1){
-      const target = (n2.target = document.querySelector(n2.props.to))
-      if(target){
-        mountChildren(n2.children, target, anchor)
-      }
-  }else{
-      patchChildren(n1, n2, container)
-      if(n2.props.to !== n1.props.to){
-        const nextTarget = document.querySelector(n2.props.to)
-        n2.children.forEach(child => move(child, nextTarget, anchor))
-      }
-    }
+export function initProps(instance) {
+  // ...
+  if(instance.vnode.shapeFlag & ShapeFlags.FUNCTIONAL_COMPONENT) {
+    instance.attrs = attrs
   }
 }
-export const isTeleport = (type) => type.__isTeleport
+```
+
+## renderComponentRoot
+
+产生 `subTree` 时, 要根据类型做不同的处理
+
+```ts{7}
+export function renderComponentRoot(instance) {
+  const { render, proxy, vnode, props } = instance
+  if (vnode.shapeFlag & ShapeFlags.STATEFUL_COMPONENT) {
+    return render.call(proxy, proxy)
+  } else {
+    // here is the functional component
+    return vnode.type(props)
+  }
+}
+
+const subTree = renderComponentRoot(instance)
 ```

@@ -70,63 +70,14 @@ export const enum NodeTypes {
 ```
 
 ### 2. 创建解析上下文
-```ts
-function createParserContext(content) {
-  return {
-    line: 1,
-    column: 1,
-    offset: 0,
-    source: content, // source会不停的被截取
-    originalSource: content // 原始内容
-  }
-}
-function isEnd(context) {
-  const source = context.source;
-  return !source;
-}
-const delimiters = ['<', '{{', '}}', '/>']
-function parseChildren(context) {
-  const nodes = [];
-  while (!isEnd(context)) {
-    const s = context.source;
-    let node;
-    if (s.startsWith(delimiters[1])){
-      // 处理表达式类型
-    }else if(s[0] === delimiters[0]){
-      // 标签的开头
-      if(/[a-z]/i.test(s[1])){
-        // 开始标签
-      } 
-    }
-    if(!node){ // 文本的处理
-        
-    }
-    nodes.push(node);
-  }
-  return nodes;
-}
-function baseParse(template){
-  const context =  createParserContext(template);
-  return parseChildren(context);
-}
-```
+
+![createParserContext](../assets/createParseContext.png)
 
 ### 3. 处理文本节点
 
 #### 3.1 采用假设法获取文本结束位置
 
-```ts
-function parseText(context) { // 123123{{name}}</div>
-  const delimiters = ['<', '{{', '}}', '/>']
-  let endIndex = context.source.length;
-  for (let i = 0; i < endTokens.length; i++) {
-    const index = context.source.indexOf(endTokens[i], 1);
-    if (index !== -1 && endIndex > index) {
-      endIndex = index;
-    }
-  }
-}
-```
+![parseText](../assets/parseText.png)
 
 #### 3.2 处理文本内容，删除匹配到的结果，计算最新上下文位置信息
 ::: code-group
@@ -197,7 +148,7 @@ function advancePositionWithMutation(context, s, endIndex) {
 ```ts
 function parseInterpolation(context) { 
   const start = getCursor(context); // 获取表达式的开头位置
-  const closeIndex = context.source.indexOf(delimiters[2], delimiters[1]); // '}}', '{{'
+  const closeIndex = context.source.indexOf(delimiters[2], delimiters[1]);
   advanceBy(context, 2);
   const innerStart = getCursor(context); // 计算里面开始和结束
   const innerEnd = getCursor(context);
